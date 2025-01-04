@@ -19,10 +19,8 @@ class Switch:
     def __init__(self, acl, syslog_client):
         p = get_interfaces()  # Get the interfaces
         interface1 = list(p.keys())[0]
-        interface1 = "en0"
         mac_address_1 = p[interface1]
         interface2 = list(p.keys())[1]
-        interface2 = "lo0"
         mac_address_2 = p[interface2]
         self.syslog_client = syslog_client  # Create a syslog client
         self.acl = acl  # Create an ACL
