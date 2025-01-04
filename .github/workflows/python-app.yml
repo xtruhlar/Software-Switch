@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libgl1-mesa-glx libxkbcommon-x11-0 libxcb-xinerama0 libxcb-xinput0 xvfb
+        sudo apt-get install -y libgl1-mesa-glx libxkbcommon-x11-0 libxcb-xinerama0 libxcb-xinput0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb-xkb1 libxrender1 libxrandr2 libxi6 libxtst6 libxcomposite1 libxcursor1 libxdamage1 libxinerama1 libxss1 libxv1 libxxf86vm1 xvfb
         python -m pip install --upgrade pip
 
     - name: Run application with Xvfb
