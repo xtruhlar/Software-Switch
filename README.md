@@ -1,6 +1,6 @@
 # Multilayer Software Switch
 
-This project implements a **Multilayer Software Switch** as a part of the Switching and Routing in IP Networks course (SS 2023/2024). The software is designed to meet specified requirements, including MAC table management, traffic statistics, and advanced features such as Access Control Lists and RESTCONF integration.
+This project implements a **Multilayer Software Switch** as a part of the Switching and Routing in IP Networks course (SS 2023/2024). The software is designed to meet specified requirements, including MAC table management, traffic statistics, and advanced features such as Access Control Lists and Syslog integration.
 
 ## Features
 
@@ -27,6 +27,10 @@ This project implements a **Multilayer Software Switch** as a part of the Switch
   - Enabling HTTP for a specific IP while disabling ICMP (ping) for a specific MAC.
 - Displays the list of rules in the GUI, with options to delete them individually.
 - Differentiates rules for incoming and outgoing traffic on each port.
+
+### 4. Syslog
+- There is a possibility to connect to remote Syslog server.
+- Syslog server will receive custom logs (severities similar to CISCO logs)
 
 ## Installation
 
