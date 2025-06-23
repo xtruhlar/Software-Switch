@@ -86,6 +86,7 @@ class Ui_MyMainWindow(object):
         MyMainWindow.resize(1280, 950)
         MyMainWindow.setMaximumSize(QtCore.QSize(1280, 950))
         MyMainWindow.setMinimumSize(QtCore.QSize(1280, 950))
+        MyMainWindow.setWindowState(QtCore.Qt.WindowFullScreen)
 
         # ------------------------------- Icon ------------------------------- #
         self.setWindowIcon(QIcon('src/icon_1.ico'))
@@ -320,14 +321,13 @@ class Ui_MyMainWindow(object):
         self.itf2label.setObjectName("itf2label")
 
         # ----------------------------- itf1text ----------------------------- #
-        self.itf1text = QtWidgets.QLabel(self.groupMenu)
+        self.itf1text = QtWidgets.QComboBox(self.groupMenu)
         self.itf1text.setGeometry(QtCore.QRect(20, 60, 250, 30))
         self.itf1text.setObjectName("itf1text")
 
         # ----------------------------- itf2text ----------------------------- #
-        self.itf2text = QtWidgets.QLabel(self.groupMenu)
+        self.itf2text = QtWidgets.QComboBox(self.groupMenu)
         self.itf2text.setGeometry(QtCore.QRect(960, 60, 250, 30))
-        self.itf2text.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.itf2text.setObjectName("itf2text")
 
         # --------------------------- startButton ---------------------------- #
@@ -396,8 +396,9 @@ class Ui_MyMainWindow(object):
         self.groupMenu.setTitle(_translate("MyMainWindow", "PSIP L2 Software Multilayer Switch"))
         self.itf1label.setText(_translate("MyMainWindow", "Interface 1:"))
         self.itf2label.setText(_translate("MyMainWindow", "Interface 2:"))
-        self.itf1text.setText(_translate("MyMainWindow", "TEXT"))
-        self.itf2text.setText(_translate("MyMainWindow", "TEXT"))
+        # Interface names will be populated dynamically
+        # self.itf1text.setText(_translate("MyMainWindow", "TEXT"))
+        # self.itf2text.setText(_translate("MyMainWindow", "TEXT"))
         self.serverIPtext.setText(_translate("MyMainWindow", "Syslog Server IP"))
         self.clientIPtext.setText(_translate("MyMainWindow", "Syslog Client IP"))
         self.connectButton.setText(_translate("MyMainWindow", "Connect"))

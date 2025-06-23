@@ -68,15 +68,31 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui_MyMainWindow):
     def set_interface_names(self):  # Set the interface names
         interfaces = get_interfaces()
         names = list(interfaces.keys())
-        self.itf1text.setText(names[0])
-        self.itf2text.setText(names[1])
-        self.groupItf1.setTitle(names[0])
-        self.groupItf2.setTitle(names[1])
+        
+        # Populate dropdowns with all available interfaces
+        self.itf1text.clear()
+        self.itf2text.clear()
+        self.itf1text.addItems(names)
+        self.itf2text.addItems(names)
+        
+        # Set default selections (first two interfaces)
+        if len(names) >= 1:
+            self.itf1text.setCurrentText(names[0])
+            self.groupItf1.setTitle(names[0])
+        if len(names) >= 2:
+            self.itf2text.setCurrentText(names[1])
+            self.groupItf2.setTitle(names[1])
+        
+        # Connect dropdown change events
+        self.itf1text.currentTextChanged.connect(lambda text: self.groupItf1.setTitle(text))
+        self.itf2text.currentTextChanged.connect(lambda text: self.groupItf2.setTitle(text))
+        self.itf1text.currentTextChanged.connect(self.on_interface_change)
+        self.itf2text.currentTextChanged.connect(self.on_interface_change)
 
     def update_interface_status(self, interface_name, is_up):  # Update the interface status indicators
-        if interface_name == self.itf1text.text():
+        if interface_name == self.itf1text.currentText():
             update_status_indicator(self.statusITF1, is_up)
-        elif interface_name == self.itf2text.text():
+        elif interface_name == self.itf2text.currentText():
             update_status_indicator(self.statusITF2, is_up)
 
     def clear_statistics_display(self):  # Clear the statistics display
@@ -85,18 +101,43 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui_MyMainWindow):
 
     def update_statistics_display(self, stats):  # Update the statistics display
         for interface, interface_stats in stats.items():
-            if interface == self.itf1text.text():
+            if interface == self.itf1text.currentText():
                 update_table_view(self.tableViewitf1in, interface_stats["IN"])  # Update the IN statistics
                 update_table_view(self.tableViewitf1out, interface_stats["OUT"])  # Update the OUT statistics
-            elif interface == self.itf2text.text():
+            elif interface == self.itf2text.currentText():
                 update_table_view(self.tableViewitf2in, interface_stats["IN"])
                 update_table_view(self.tableViewitf2out, interface_stats["OUT"])
 
     def clear_stats1(self):  # Clear the statistics for interface 1
-        self.software_switch.clear_statistics(interface_name=self.itf1text.text())
+        self.software_switch.clear_statistics(interface_name=self.itf1text.currentText())
 
     def clear_stats2(self):  # Clear the statistics for interface 2
-        self.software_switch.clear_statistics(interface_name=self.itf2text.text())
+        self.software_switch.clear_statistics(interface_name=self.itf2text.currentText())
+    
+    def on_interface_change(self):  # Handle interface dropdown changes
+        # Stop current switch operations
+        self.software_switch.stop_all_sniffing()
+        
+        # Get current interface selections
+        interfaces = get_interfaces()
+        interface1 = self.itf1text.currentText()
+        interface2 = self.itf2text.currentText()
+        
+        # Validate selections
+        if interface1 in interfaces and interface2 in interfaces and interface1 != interface2:
+            # Update switch with new interfaces
+            mac_address_1 = interfaces[interface1]
+            mac_address_2 = interfaces[interface2]
+            
+            # Create new ports with selected interfaces
+            from switch.port import Port
+            self.software_switch.ports = [
+                Port(interface1, mac_address_1, self.software_switch.process_packet, 
+                     self.software_switch.syslog_client, self.software_switch.acl, self.software_switch.mac_table),
+                Port(interface2, mac_address_2, self.software_switch.process_packet, 
+                     self.software_switch.syslog_client, self.software_switch.acl, self.software_switch.mac_table)
+            ]
+            self.software_switch.syslog_client.set_using_ports(self.software_switch.ports)
 
     # -------------------------------------------------- Statistics -------------------------------------------------- #
 
