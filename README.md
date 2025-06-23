@@ -39,6 +39,21 @@ This project implements a **Multilayer Software Switch** as a part of the Switch
    git clone git@github.com:xtruhlar/Software-Switch.git
    ```
 
+2. Create and activate virtual environment:
+   ```bash
+   python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install PyQt5
+   ```
+
+3. Run the software:
+   ```bash
+   python3 main.py
+   ```
+
 ## Usage
 
 1. You have to run the `main.py` as sudo user (on macOS) so the software can use `scapy` lib.
